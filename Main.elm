@@ -26,11 +26,11 @@ model =
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
-    case Debug.log "update" msg of
+    case msg of
         Click item ->
-            ( { model | selected = List.append model.selected [ item ] }, Cmd.none )
+            { model | selected = List.append model.selected [ item ] }
 
 
 displayItem : String -> Html Msg
@@ -60,9 +60,8 @@ view model =
 
 main : Program Never Model Msg
 main =
-    Html.program
-        { init = ( model, Cmd.none )
+    Html.beginnerProgram
+        { model = model
         , view = view
-        , subscriptions = always Sub.none
         , update = update
         }
