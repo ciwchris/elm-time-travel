@@ -10,27 +10,27 @@ import Material.Scheme
 
 
 type Msg
-    = Click String
+    = ListItemClick String
 
 
 type alias Model =
     { items : List String
-    , selected : List String
+    , selectedItems : List String
     }
 
 
 model : Model
 model =
     { items = [ "filter_1", "filter_2", "filter_3", "filter_4", "filter_5" ]
-    , selected = []
+    , selectedItems = []
     }
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Click item ->
-            { model | selected = List.append model.selected [ item ] }
+        ListItemClick item ->
+            { model | selectedItems = List.append model.selectedItems [ item ] }
 
 
 displayItem : String -> Html Msg
@@ -38,7 +38,7 @@ displayItem item =
     Lists.li
         []
         [ Lists.content
-            [ Options.attribute <| Html.Events.onClick (Click item) ]
+            [ Options.attribute <| Html.Events.onClick (ListItemClick item) ]
             [ Lists.avatarIcon item []
             , text (humanize item)
             ]
@@ -53,7 +53,7 @@ view model =
             [ Lists.ul [] (List.map displayItem model.items) ]
         , Grid.cell
             [ Grid.size Grid.All 2 ]
-            [ Lists.ul [] (List.map displayItem model.selected) ]
+            [ Lists.ul [] (List.map displayItem model.selectedItems) ]
         ]
         |> Material.Scheme.top
 
